@@ -1,0 +1,69 @@
+// ***********************
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+/// --- 颜色与字体 ---
+
+$color-foreground: #333333; // 前景色
+$color-background: #f1f1f1; // 后景色
+$color-bg-html: #ededed; // html 背景色
+$color-bg-body: #ffffff; // body 背景色
+
+// 默认字体
+$font-family:
+  -apple-system,
+  BlinkMacSystemFont,
+  'Helvetica Neue',
+  Helvetica,
+  Segoe UI,
+  Arial,
+  Roboto,
+  'PingFang SC',
+  'miui',
+  'Hiragino Sans GB',
+  'Microsoft Yahei',
+  sans-serif;
+
+/// --- 媒介断点 ---
+
+// 媒介断点(覆盖 include-media 默认变量)
+$breakpoints: (
+  'min': 320px,
+  // 最小尺寸
+  'sm': 500px,
+  'md': 768px,
+  // 移动端分界线
+  'lg': 1024px,
+  // 传统 17 寸显示器
+  'xl': 1280px,
+  // PC 固定内容宽度
+  'xxl': 1536px,
+  // 中屏
+  'xxxl': 1920px,
+  // 大屏
+  'super': 2200px,
+  // 超大屏
+) !default;
+
+/// --- 静态资源 ---
+
+// 资源绝对路径
+$static-root_absolute: '/static/images/';
+// 资源相对路径
+$static-root_relative: '../images/';
+// 项目使用的路径
+$static-root: $static-root_relative;
+// 每个模块的具体目录
+$static-img: (
+  common: 'common/',
+  home: 'home/',
+);
+
+/// --- zIndex 层级关系 ---
+
+$zoom-default: 1;
+// 页面错误
+$zoom-page-error: 89;
+// 非微信环境的遮罩层
+$zoom-mask-env-without-wx: 59;

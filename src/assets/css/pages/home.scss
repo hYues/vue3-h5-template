@@ -1,0 +1,4 @@
+.page.page-home {
+  @include size-width-full();
+  min-height: 100vh;
+}

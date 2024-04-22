@@ -1,0 +1,21 @@
+// ***********************
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+@charset "UTF-8";
+
+// 配置和辅助
+@import 'init/mixins';
+
+// 外部样式
+@import 'vendors/include-media', 'vendors/normalize';
+
+// 基础样式
+@import 'base/reset', 'base/base', 'base/fonts', 'base/typography', 'base/plugin';
+
+// 主题
+@import 'theme/mobile/style';
+
+// 单独页面
+@import 'pages/layout', 'pages/error', 'pages/home';

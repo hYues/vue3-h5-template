@@ -1,0 +1,174 @@
+// ***********************
+// 数值计算
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+@use 'sass:math';
+
+/// 去掉字符串的单位
+/// @param {number} $value
+/// @return {number (unitless)}
+/// @example
+//    $dimension: _strip-unit(10rem);
+@function _strip-unit($value) {
+  @return (math.div($value, ($value * 0 + 1)));
+}
+
+/// 数值指定位数进行四舍五入
+/// @param {number} $number - A number to round
+/// @param {number} $digits [0] - Digits to output [ 取小数点第几位 ]
+/// @param {string} $mode [round] - (round|ceil|floor) How to round a number [ 四舍五入的方式 ]
+/// @return {number}  rounded number
+/// @example
+///   _round(0.666)    => 1
+///   _round(0.666, 1) => 0.7
+///   _round(0.666, 2) => 0.67
+///   _round(0.666, 2, ceil) => 0.67
+///   _round(0.666, 2, floor) => 0.66
+@function _round($number, $digits: 0, $mode: round) {
+  $n: 1;
+
+  // $number must be a number
+  @if type-of($number) !=number {
+    @warn '#{ $number } is not a number.';
+    @return $number;
+  }
+
+  // $digits must be a unitless number
+  @if type-of($digits) !=number {
+    @warn '#{ $digits } is not a number.';
+    @return $number;
+  } @else if not unitless($digits) {
+    @warn '#{ $digits } has a unit.';
+    @return $number;
+  }
+
+  @for $i from 1 through $digits {
+    $n: $n * 10;
+  }
+
+  @if $mode==round {
+    @return math.div(round($number * $n), $n);
+  } @else if $mode==ceil {
+    @return math.div(ceil($number * $n), $n);
+  } @else if $mode==floor {
+    @return math.div(floor($number * $n), $n);
+  } @else {
+    @warn '#{ $mode } is undefined keyword.';
+    @return $number;
+  }
+}
+
+// 向上取整
+@function _round-ceil($number, $digits: 0) {
+  @return _round($number, $digits, ceil);
+}
+
+// 向下取整
+@function _round-floor($number, $digits: 0) {
+  @return _round($number, $digits, floor);
+}
+
+/// 匹配 margin 值的转换规则(将 1-4 个值转换成 4 个值)
+/// @param {list} shorthand
+/// @example
+///   margin: _unpack-shorthand(1em 2em);
+///   margin: 1em 2em 1em 2em;
+@function _unpack-shorthand($shorthand) {
+  @if length($shorthand) ==1 {
+    @return nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1) nth($shorthand, 1);
+  } @else if length($shorthand) ==2 {
+    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 1) nth($shorthand, 2);
+  } @else if length($shorthand) ==3 {
+    @return nth($shorthand, 1) nth($shorthand, 2) nth($shorthand, 3) nth($shorthand, 2);
+  } @else {
+    @return $shorthand;
+  }
+}
+
+/// 获取 Map 中对应的键值
+/// @param {map} $map
+/// @param {lists} $keys
+/// @example
+///   $config: { default: { header: 40px } };
+///   header: _get($config, default header);
+///   header: 40px;
+@function _get($map, $keys...) {
+  @if length($keys) ==1 {
+    $keys: nth($keys, 1);
+  }
+
+  @if type-of($map) != 'map' or $map==null {
+    @error "`#{$map}` is not a valid map for the `$map` argument "+"in the `get` mixin.";
+  }
+
+  $warn: '#{nth($keys, 1)}';
+  $length: length($keys);
+  $get: map-get($map, nth($keys, 1));
+
+  @if $length>1 {
+    @for $i from 2 through $length {
+      @if $get !=null and type-of($get) == 'map' {
+        $warn: $warn + '->#{nth($keys, $i)}';
+        $get: map-get($get, nth($keys, $i));
+
+        @if $get==null {
+          @return null;
+        }
+      } @else {
+        @if $get==null {
+          @warn "Map has no value for key search `#{$warn}`";
+        } @else if type-of($get) != 'map' {
+          @warn "Non-map value found for key search `#{$warn}`, cannot search for key `#{nth($keys, $i)}`";
+        }
+
+        @return null;
+      }
+    }
+  }
+
+  @return $get;
+}
+
+/// 检验 Map 中是否存在对应的键
+/// @param {map} $map
+/// @param {lists} $keys
+/// @return {boolean}
+/// @example
+///   $config: { default: { header: 40px } };
+///   @if(_has($config, default, header)) ...
+@function _has($map, $keys...) {
+  @if length($keys) ==1 {
+    $keys: nth($keys, 1);
+  }
+
+  @if type-of($map) != 'map' or $map==null {
+    @error "`#{$map}` is not a valid map for the `$map` argument "+"in the `get` mixin.";
+  }
+
+  $warn: '#{nth($keys, 1)}';
+  $length: length($keys);
+  $get: map-get($map, nth($keys, 1));
+
+  @if $length>1 {
+    @for $i from 2 through $length {
+      @if $get !=null and type-of($get) == 'map' {
+        $warn: $warn + '->#{nth($keys, $i)}';
+        $get: map-get($get, nth($keys, $i));
+
+        @if $get==null {
+          @return false;
+        }
+      } @else {
+        @return false;
+      }
+    }
+  }
+
+  @if $get !=null {
+    @return true;
+  } @else {
+    @return false;
+  }
+}

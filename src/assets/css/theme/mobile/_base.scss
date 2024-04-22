@@ -1,0 +1,49 @@
+// ***********************
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+html {
+  @include rem-responsive;
+  background-color: $color-bg-html;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  // 字体设置默认值，防止继承根字体大小
+  font-size: initial;
+  font-family: $font-family;
+  // 防止 IOS 默认文字缩放
+  -webkit-text-size-adjust: 100% !important;
+  @include mobile-width-limit;
+  margin: 0 auto !important;
+  word-break: break-word;
+  background-color: $color-bg-body;
+}
+
+#app {
+  .page {
+    @include size-width-full();
+    min-height: 100vh;
+  }
+
+  // 搭配 weui 生成符合微信风格的界面
+
+  @supports (top: constant(safe-area-inset-top)) {
+    .page.weui {
+      padding: constant(safe-area-inset-top) constant(safe-area-inset-right) constant(safe-area-inset-bottom)
+        constant(safe-area-inset-left);
+    }
+  }
+
+  @supports (top: env(safe-area-inset-top)) {
+    .page.weui {
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+  }
+}

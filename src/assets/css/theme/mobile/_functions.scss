@@ -1,0 +1,54 @@
+// ***********************
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+@use 'sass:math';
+
+/// ***********************
+/// 获取每种设备宽度下的基础字体大小
+/// @param {string} $size 真实设备宽度
+/// @return {string}
+/// ***********************
+@function each-device-font-base-size($size) {
+  @return _round(
+    (math.div($size, map_get($machine, width))) * (math.div(map_get($design, font-size), $design-rate)),
+    2
+  );
+}
+
+/// ***********************
+/// 换算成 rem 尺寸
+/// @param {string} $size 设计稿元素尺寸
+/// @return {string}
+/// ***********************
+@function rem($size) {
+  @return _round_floor(math.div(_strip-unit($size), _strip-unit(map_get($design, font-size))), 2) * 1rem;
+}
+
+/// ***********************
+/// 换算成 vw 尺寸
+/// @param {string} $size 设计稿元素尺寸
+/// @return {string}
+/// ***********************
+@function vw($size) {
+  @return _round_floor(math.div(_strip-unit($size), _strip-unit(map_get($design, width))), 2) * 100vw;
+}
+
+/// ***********************
+/// 换算成 vh 尺寸
+/// @param {string} $size 设计稿元素尺寸
+/// @return {string}
+/// ***********************
+@function vh($size) {
+  @return _round_floor(math.div(_strip-unit($size), _strip-unit(map_get($design, height))), 2) * 100vh;
+}
+
+/// ***********************
+/// PS 设计稿中 VA 值转换为页面对应的尺寸
+/// @param {string} $size 设计稿元素尺寸
+/// @return {string}
+/// ***********************
+@function va($size) {
+  @return (math.div(1, 1000) * _strip-unit($size)) + em;
+}

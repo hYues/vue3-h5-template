@@ -1,0 +1,29 @@
+// ***********************
+// 尺寸相关
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+@use 'sass:math';
+
+// UI 设计相关尺寸
+$design: (
+  width: 780px,
+  height: 1688px,
+  font-size: 24px,
+  padding: 25px,
+) !default;
+
+// 真实机型尺寸
+$machine: (
+  width: 390px,
+  height: 844px,
+  mobile-width-min: 320px,
+  mobile-width-max: 540px,
+) !default;
+
+// 设计稿与真实机型的比率
+$design-rate: _round(math.div(map_get($design, width), map_get($machine, width)), 4);
+
+// 根节点 vw 基准值
+$font-size-vw-base: _round-floor(math.div(map_get($design, font-size), map_get($design, width)), 4) * 100vw;

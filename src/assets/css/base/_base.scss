@@ -1,0 +1,30 @@
+// ***********************
+// 基础样式
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+html {
+  // 注重文字渲染的可读性
+  text-rendering: optimizeLegibility;
+  // 抗锯齿
+  -webkit-font-smoothing: antialiased;
+  // 禁用移动端按压高亮效果
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  // 设置滚动条样式
+  @include scrollbar(6px, #bbbbbb);
+  user-select: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

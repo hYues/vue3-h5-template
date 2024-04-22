@@ -1,0 +1,31 @@
+// ***********************
+// 排版
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+// 属性控制
+[hidden] {
+  display: none !important;
+}
+
+[opacity] {
+  opacity: 0 !important;
+}
+
+[events-none] {
+  pointer-events: none !important;
+}
+
+// 间距配置
+@for $i from 1 through 10 {
+  @each $short, $direction in (t: 'top', r: 'right', b: 'bottom', l: 'left') {
+    .m#{$short}-#{$i} {
+      margin-#{$direction}: $i * 0.5em !important;
+    }
+
+    .p#{$short}-#{$i} {
+      padding-#{$direction}: $i * 0.5em !important;
+    }
+  }
+}

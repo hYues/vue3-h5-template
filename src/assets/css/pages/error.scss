@@ -1,0 +1,16 @@
+@import '@/assets/css/init/mixins';
+
+.page-error {
+  height: 100vh;
+  @include flex();
+
+  .page-error-container {
+    @include flex();
+    gap: 8px;
+    font-size: 20px;
+
+    .code {
+      font-size: 28px;
+    }
+  }
+}

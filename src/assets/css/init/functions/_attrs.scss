@@ -1,0 +1,67 @@
+// ***********************
+// 属性集合
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+@use 'sass:math';
+
+/// 设置元素宽高
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+/// 文本超出显示省略号
+@mixin ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/// after 伪元素
+@mixin after() {
+  &:after {
+    content: '';
+    @content;
+  }
+}
+
+/// before 伪元素
+@mixin before() {
+  &:before {
+    content: '';
+    @content;
+  }
+}
+
+/// 滚动条样式，有兼容性问题
+/// @param {Length} $size
+/// @param {Color} $foreground-color
+/// @example
+/// @include scrollbar(.5em, #cccccc)
+@mixin scrollbar($size: 6px, $foreground-color: #bbbbbb) {
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+    border-radius: math.div($size, 2);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/// 隐藏滚动条
+@mixin scrollbar-hidden {
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+    display: none;
+  }
+}

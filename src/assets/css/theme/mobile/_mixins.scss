@@ -1,0 +1,49 @@
+// ***********************
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+/// ***********************
+/// 页面 REM 自适应方案
+/// ***********************
+@mixin rem-responsive {
+  // 将 rem 基础字大小换算成 vw
+  font-size: $font-size-vw-base;
+  // 限制最小字体
+  @include media('<=' + map_get($machine, mobile-width-min)) {
+    font-size: each-device-font-base-size(map_get($machine, mobile-width-min));
+  }
+  // 限制最大字体
+  @include media('>=' + map_get($machine, mobile-width-max)) {
+    font-size: each-device-font-base-size(map_get($machine, mobile-width-max));
+  }
+}
+
+/// ***********************
+/// 限制移动端宽度
+/// ***********************
+@mixin mobile-width-limit {
+  max-width: map_get($machine, mobile-width-max);
+  min-width: map_get($machine, mobile-width-min);
+}
+
+/// ***********************
+/// 铺满设计稿宽度
+/// ***********************
+@mixin size-width-full($height: null) {
+  width: rem(map_get($design, width));
+  // 防止因为产生侧边滚动条时，100vw 产生变化导致出现横向滚动条
+  max-width: 100%;
+  @if not _empty($height) {
+    height: rem($height);
+  }
+  // 防止因为尺寸问题内容不居中
+  margin: 0 auto;
+}
+
+/// ***********************
+/// 获取设计稿的边界距离
+/// ***********************
+@mixin padding($x: 0) {
+  padding: $x rem(map_get($design, padding));
+}

@@ -1,0 +1,44 @@
+/** 白屏阶段执行的加载动画 */
+
+#app-loading {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateY(0);
+  transition: all 0.4s;
+  background: linear-gradient(to right, #d367c1 10%, #dedf40 25%, #62cb5c 50%, #00bbcb 75%, #ab79d6 90%);
+  overflow: hidden;
+}
+
+#app-loading::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    to right,
+    #d367c100 0%,
+    #d367c150 5%,
+    #d367c1 10%,
+    #dedf40 25%,
+    #62cb5c 50%,
+    #00bbcb 75%,
+    #ab79d6 90%,
+    #ab79d650 95%,
+    #ab79d600 100%
+  );
+  animation: app-loading-animation 1.5s linear infinite;
+}
+
+@keyframes app-loading-animation {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

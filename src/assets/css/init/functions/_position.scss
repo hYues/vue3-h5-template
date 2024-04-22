@@ -1,0 +1,110 @@
+// ***********************
+// 定位
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+/// Flex 布局
+/// @param {string} $direction [y] 垂直方向布局
+/// @param {string} $justify
+/// @param {string} $align
+/// @example
+/// .el {
+///   @include flex(y, start, null);
+/// }
+@mixin flex($direction: row, $justify: center, $align: center) {
+  $justifys: (
+    'start': flex-start,
+    'end': flex-end,
+    'center': center,
+    'around': space-around,
+    'between': space-between,
+  );
+  $aligns: (
+    'start': flex-start,
+    'end': flex-end,
+    'center': center,
+  );
+  display: flex;
+
+  @if (y==$direction) {
+    flex-direction: column;
+  }
+
+  justify-content: map_get($justifys, $justify);
+  align-items: map_get($aligns, $align);
+}
+
+/// 设置元素 position
+/// @param {string} $position
+/// @param {list} $box-edge-values
+/// @example
+/// .el {
+///   @include position(relative, 0 null null 10em);
+/// }
+/// .el {
+///   position: relative;
+///   left: 10em;
+///   top: 0;
+/// }
+@mixin position($position: absolute, $box-edge-values: 0 null null 0) {
+  $box-edge-values: _unpack-shorthand($box-edge-values);
+  $offsets: (
+    'top': nth($box-edge-values, 1),
+    'right': nth($box-edge-values, 2),
+    'bottom': nth($box-edge-values, 3),
+    'left': nth($box-edge-values, 4),
+  );
+
+  position: $position;
+
+  @each $offset, $value in $offsets {
+    @if _is-length($value) {
+      #{$offset}: $value;
+    }
+  }
+}
+
+/// 使用 translate 实现水平垂直居中
+/// @param {string} $direction 垂直方向 both|horizontal|vertical
+/// @example
+/// .el{
+///   @include translate-center;
+/// }
+/// .el {
+///   position: absolute;
+///   top: 50%;
+///   left: 50%;
+///   transform: translate3d(-50%, -50%, 0);
+/// }
+@mixin translate-center($direction: both) {
+  position: absolute;
+
+  @if $direction==both {
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  } @else if $direction==horizontal {
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+  } @else if $direction==vertical {
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+/// 铺满屏幕
+@mixin full-screen() {
+  @include position(fixed, 0 0 0 0);
+}
+
+/// 铺满父级
+@mixin full-parent() {
+  @include position(absolute, 0 null null 0);
+  @include size(100%, 100%);
+}
+
+// 浮动布局
+@mixin absolute($top, $left) {
+  @include position(absolute, $top null null $left);
+}

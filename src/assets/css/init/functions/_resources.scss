@@ -1,0 +1,69 @@
+// ***********************
+// 公共属性的集合
+// @author HaoYue
+// @email 202683457@qq.com
+// ***********************
+
+/// 获取静态资源地址
+/// @param {string} $model $static-img param
+/// @param {string} $path static path
+/// @return {string}
+/// @example
+///   static-path(home, 'banner.jpg')
+@function static-path($model, $path) {
+  @return $static-root + _get($static-img, $model) + $path;
+}
+
+/// ***********************
+/// 图片自适应
+/// ***********************
+@mixin img-responsive($max-with: 100%, $display: block) {
+  display: $display;
+  max-width: $max-with;
+  height: auto;
+}
+
+/// 背景图片默认覆盖居中
+/// @param {string} $image 图片地址
+/// @example
+/// .el {
+///   @include bg-img('banner.jpg');
+/// }
+@mixin bg-img($image, $size: 'cover') {
+  background-image: url($image);
+  background-position: center;
+  background-size: $size;
+  background-repeat: no-repeat;
+}
+
+/// 设置背景
+/// @param {map} $options 背景信息
+/// @example
+/// .el {
+///   @include bg-more((
+///     'color': #eeeeee,
+///     'image': 'banner.jpg',
+///     'position': top left,
+///   ));
+/// }
+@mixin bg-more($options: ()) {
+  $options: map-merge(
+    (
+      'color': null,
+      'image': null,
+      'position': center,
+      'size': cover,
+      'repeat': no-repeat,
+    ),
+    $options
+  );
+  background-color: map_get($options, 'color');
+
+  @if null !=map_get($options, 'image') {
+    background-image: url(map_get($options, 'image'));
+  }
+
+  background-position: map_get($options, 'position');
+  background-size: map_get($options, 'size');
+  background-repeat: map_get($options, 'repeat');
+}
